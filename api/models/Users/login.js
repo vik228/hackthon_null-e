@@ -4,7 +4,6 @@
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
-var utils = require('../../customModules/Utils.js');
 module.exports = {
 
   attributes: {
@@ -64,24 +63,24 @@ module.exports = {
     var passwd = data['passwd'];
     var resObj = {};
     if (!loginId || !passwd) {
-      resObj = utils.getResponseObject(login, err, 400, "All fields are mandatory");
+      resObj = sails.config.Utils.getResponseObject(login, err, 400, "All fields are mandatory");
       callback(resObj);
     } else {
       login.findOne({login_id: loginId}).exec(function (err, user) {
         if (err) {
-          resObj = utils.getResponseObject(login, err, 500, 'Internal Server Error');
+          resObj = sails.config.getResponseObject(login, err, 500, 'Internal Server Error');
           callback(resObj);
         } else if (!user) {
-          resObj = utils.getResponseObject(login, null, 400, "User not found");
+          resObj = sails.config.getResponseObject(login, null, 400, "User not found");
           callback(resObj);
         } else {
           login.comparePassword(user['passwd'], user, function (err, match) {
 
             if (!match) {
-              resObj = utils.getResponseObject(login, null, 401, "Authentication Failed");
+              resObj = sails.config.getResponseObject(login, null, 401, "Authentication Failed");
 
             } else {
-              resObj = utils.getResponseObject(login, null, 200, "Authentication successful");
+              resObj = sailsi.config.getResponseObject(login, null, 200, "Authentication successful");
               var claim = {
                 iss: 'hackthon_null-e',
                 sub: user['login'],

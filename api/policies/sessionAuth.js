@@ -1,4 +1,3 @@
-var redisUtils = require('../../customModules/RedisUtils.js');
 module.exports = function (req, res, next) {
 
   var token;
@@ -9,7 +8,6 @@ module.exports = function (req, res, next) {
   }
   if (token) {
     var responseObj = {};
-    redisUtils.getFromRedis()
 
   }
 
