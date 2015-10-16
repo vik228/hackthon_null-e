@@ -18,10 +18,12 @@ module.exports = {
     });
   },
 
+  //For testing
   sendEmail: function(req, res) {
-  	EmailService.sendEmail(req.body);
-  	res.status(200);
-  	res.json({response: "res"});
+  	response = EmailService.sendEmail(req.body, function(response){
+      res.status(response.status);
+      res.json(response);
+    });
   }
 };
 

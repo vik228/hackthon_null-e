@@ -36,7 +36,7 @@ module.exports.routes = {
     view: 'homepage'
   },
   'POST /api/v0/users/add': 'Users/userDetailsController.createUser',
-  'POST /api/v0/users/send': 'Users/userDetailsController.sendEmail'
+  'POST /api/v0/users/send': 'Users/userDetailsController.sendEmail' //Test route
 
   /***************************************************************************
    *                                                                          *
