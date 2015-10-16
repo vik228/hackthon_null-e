@@ -28,6 +28,10 @@ module.exports = {
       type: 'string',
       enum: ['active', 'inactive'],
       defaultsTo: 'inactive'
+    },
+    user_id: {
+    	collection: 'Video',
+    	via: 'UserId'
     }
   },
   validationMessages: {
@@ -41,7 +45,7 @@ module.exports = {
   },
   add: function (users, callback) {
 
-    userDetails.create(users, function (err, addedUser) {
+    userDetails.create(userskk, function (err, addedUser) {
 
       var resposne = {};
       if (err) {
