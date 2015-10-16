@@ -3,17 +3,17 @@ var mandrill_client = new mandrill.Mandrill(sails.config.API_KEY.MANDRILL);
 
 var async = true;
 
-module.exports.sendEmail = function(options, callback) {
+module.exports.sendEmail = function(message, callback) {
 
-    var message = {
-            "subject": "Please verify your email address",
-            "from_email": "nule@housing.com",
-            "from_name": "Nulle",
-            "to":[
-                {"email": options.email, "name": options.name}
-            ],
-            "text": "Hi, "+options.name+",\nThis is a test email."
-    };
+    // var message = {
+    //         "subject": "Please verify your email address",
+    //         "from_email": "nule@housing.com",
+    //         "from_name": "Nulle",
+    //         "to":[
+    //             {"email": options.email, "name": options.name}
+    //         ],
+    //         "text": "Hi, "+options.name+",\nThis is a test email."
+    // };
 
     mandrill_client.messages.send({"message": message, "async": async}, function(result) {
         console.log(result);
