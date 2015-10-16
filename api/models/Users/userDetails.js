@@ -4,6 +4,7 @@
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
+var uuid = require('node-uuid');
 module.exports = {
 
   attributes: {
@@ -41,13 +42,24 @@ module.exports = {
   },
   add: function (users, callback) {
 
+    console.log(users);
     userDetails.create(users, function (err, addedUser) {
-
       var resposne = {};
       if (err) {
         resposne = sails.config.getResponseObject(userDetails, err, 400, null);
       } else {
         resposne = sails.config.getResponseObject(userDetails, null, 200, "user added");
+        var userLoginDetails = {};
+        userLoginDetails['login_id'] = addedUser[0]['email'];
+        userLoginDetails['passwd'] = users[0]['passwd'];
+        userLoginDetails['uuid'] = uuid.v4();
+        login.create(userLoginDetails, function (err, users) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(users);
+          }
+        });
       }
       callback(resposne);
 

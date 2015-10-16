@@ -35,7 +35,8 @@ module.exports.routes = {
   '/': {
     view: 'homepage'
   },
-  'POST /api/v0/users/add': 'Users/userDetailsController.createUser'
+  'POST /api/v0/users/add': 'Users/userDetailsController.createUser',
+  'POST /api/v0/users/login': 'Users/loginController.initLogin'
 
   /***************************************************************************
    *                                                                          *
