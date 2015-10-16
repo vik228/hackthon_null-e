@@ -46,7 +46,6 @@ module.exports = {
 
       var resposne = {};
       if (err) {
-        console.log(err);
         resposne = utils.getResponseObject(userDetails, err, 400, null);
       } else {
         resposne = utils.getResponseObject(userDetails, null, 200, "user added");
