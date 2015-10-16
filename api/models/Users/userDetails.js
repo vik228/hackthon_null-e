@@ -4,7 +4,6 @@
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
-var utils = require('../../customModules/Utils.js');
 module.exports = {
 
   attributes: {
@@ -46,10 +45,9 @@ module.exports = {
 
       var resposne = {};
       if (err) {
-        console.log(err);
-        resposne = utils.getResponseObject(userDetails, err, 400, null);
+        resposne = sails.config.getResponseObject(userDetails, err, 400, null);
       } else {
-        resposne = utils.getResponseObject(userDetails, null, 200, "user added");
+        resposne = sails.config.getResponseObject(userDetails, null, 200, "user added");
       }
       callback(resposne);
 

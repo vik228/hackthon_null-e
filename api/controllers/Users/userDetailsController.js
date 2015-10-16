@@ -11,7 +11,6 @@ module.exports = {
 
     var data = req.body.data;
     userDetails.add(data, function (responseObj) {
-
       res.status(responseObj['responseCode']);
       res.json({response: responseObj});
 
