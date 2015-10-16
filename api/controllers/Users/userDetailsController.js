@@ -16,6 +16,12 @@ module.exports = {
       res.json({response: responseObj});
 
     });
+  },
+
+  sendEmail: function(req, res) {
+  	EmailService.sendEmail(req.body);
+  	res.status(200);
+  	res.json({response: "res"});
   }
 };
 
