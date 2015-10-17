@@ -23,12 +23,17 @@ module.exports = {
     },
     email: {
       type: 'email',
-      required: true
+      required: true,
+      unique: true
     },
     status: {
       type: 'string',
       enum: ['active', 'inactive'],
       defaultsTo: 'inactive'
+    },
+    uploaded_videos: {
+      collection: 'videos',
+      via: 'user_id'
     }
   },
   validationMessages: {
@@ -37,7 +42,8 @@ module.exports = {
     },
     email: {
       email: 'Please enter a valid email',
-      required: 'Email is required'
+      required: 'Email is required',
+      unique: 'User already exists'
     }
   },
   add: function (users, callback) {

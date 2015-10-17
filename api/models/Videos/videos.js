@@ -26,7 +26,7 @@ module.exports = {
     },
     tags: {
       collection: 'tags',
-      via: 'video'
+      via: 'videos'
     }
 
   },
@@ -38,14 +38,6 @@ module.exports = {
         resposne = sails.config.getResponseObject(videos, null, 500, 'Internal Server Error');
       } else {
         resposne = sails.config.getResponseObject(videos, null, 200, 'Video Added');
-        if (data.new_tag) {
-          addedVideo.tags.add({tag_name: data.new_tag});
-        }
-        addedVideo.save(function (err) {
-          if (err) {
-            console.lgo(err);
-          }
-        });
       }
       callback(resposne);
 

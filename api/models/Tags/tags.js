@@ -23,6 +23,21 @@ module.exports = {
       via: 'tags'
     }
 
+  },
+  getAllTags: function (callback) {
+    tags.find().exec(function (err, tags) {
+      var response = {};
+      if (err) {
+
+        response = sails.config.getResponseObject(tags, null, 500, 'Internal Server Error');
+
+      } else {
+        response = sails.config.getResponseObject(tags, null, 500, tags);
+
+      }
+      callback(response);
+
+    })
   }
 };
 
