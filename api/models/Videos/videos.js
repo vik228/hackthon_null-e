@@ -43,18 +43,38 @@ module.exports = {
         resposne = sails.config.getResponseObject(videos, err, 500, 'Internal Server Error');
       } else {
         resposne = sails.config.getResponseObject(videos, null, 200, 'Video Added');
+        var versionUpdateObj = {};
+        versionUpdateObj['baseVideo'] = addedVideo['id'];
+        versionUpdateObj['owner'] = addedVideo['user_id'];
+        versionUpdateObj['parentId'] = addedVideo['id'];
+        versionUpdateObj['data'] = data['data'];
+        addedVideo.versions.add(versionUpdateObj);
+        addedVideo.save(function (err) {
+          console.log(err)
+        });
       }
       callback(resposne);
 
     });
   },
   updateVideo: function (data, callback) {
-    videos.update(data['findCriteria'], data['recordsToUpdate'], function (err, updatedRecord) {
+    videos.findOne(data['findCriteria'], function (err, record) {
       var response = {};
       if (err) {
-        resposne = sails.config.getResponseObject(videos, null, 500, 'Internal Server Error');
+        response = sails.config.getResponseObject(videos, null, 500, 'Internal Server Error');
       } else {
-        resposne = sails.config.getResponseObject(videos, null, 200, 'Video updated');
+        response = sails.config.getResponseObject(videos, null, 200, 'Video updated');
+        for (var key in data['recordsToUpdate']) {
+          if (key === "tags") {
+            record[key].add(data['recordsToUpdate'][key]);
+          } else {
+
+            record[key] = data['recordsToUpdate'][key];
+          }
+        }
+        record.save(function (err) {
+          console.log(err)
+        });
       }
       callback(response);
 

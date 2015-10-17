@@ -28,9 +28,7 @@ module.exports = {
     }
 
   },
-
   add: function (transaction, callback) {
-    console.log(transaction);
     Transaction.create(transaction, function (err, addedTransaction) {
       var resposne = {};
       if (err) {
@@ -40,25 +38,6 @@ module.exports = {
 
       }
       callback(resposne);
-
-    });
-  },
-  getSentVideos: function (options, callback) {
-    var query = Transaction.find({sender_id: options['sender_id']}).sort('id ASC');
-    if (options['limit'] && options['page']) {
-      query.paginate({'page': options['page'], limit: options['limit']});
-    }
-    query.exec(function (err, transactions) {
-      var response = {};
-      if (err) {
-
-        response = sails.config.getResponseObject(videos, null, 500, 'Internal Server Error');
-
-      } else {
-        response = sails.config.getResponseObject(videos, null, 200, videos);
-      }
-      callback(response);
-
     });
   }
 

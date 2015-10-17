@@ -93,10 +93,17 @@ module.exports = {
               userCache['token'] = token;
               userCache['uuid'] = user['uuid'];
               userCache['login_id'] = user['login_id'];
-              sails.config.insertIntoRedis(sails.config.user_creds, token, userCache);
+              userDetails.getUser(loginId, function (err, user) {
+                if (err) {
+                  resObj = sails.config.getResponseObject(login, null, 500, 'Internal Server Error');
+                } else {
+                  sails.config.insertIntoRedis(sails.config.user_creds, token, userCache);
+                  userCache['user_details'] = user;
+                  resObj = sails.config.getResponseObject(login, null, 200, userCache);
+                }
+                return (callback(resObj));
+              });
             }
-            return (callback(resObj));
-
           });
         }
 

@@ -18,6 +18,7 @@ module.exports = {
   updateVideo: function (req, res) {
     var data = req.body.data;
     videos.updateVideo(data, function (responseObj) {
+      console.log(responseObj);
       res.status(responseObj['responseCode']);
       res.json({response: responseObj});
     })

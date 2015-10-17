@@ -23,7 +23,6 @@ module.exports = {
     },
     email: {
       type: 'email',
-      required: true,
       unique: true
     },
     contact: {
@@ -60,6 +59,9 @@ module.exports = {
       email: 'Please enter a valid email',
       required: 'Email is required',
       unique: 'User already exists'
+    },
+    contact: {
+      required: 'Contact is required'
     }
   },
   add: function (users, callback) {
@@ -67,12 +69,13 @@ module.exports = {
     userDetails.create(users, function (err, addedUser) {
       var resposne = {};
       if (err) {
+        console.log(err);
         resposne = sails.config.getResponseObject(userDetails, err, 400, null);
       } else {
         resposne = sails.config.getResponseObject(userDetails, null, 200, "user added");
         var userLoginDetails = {};
-        userLoginDetails['login_id'] = addedUser[0]['email'];
-        userLoginDetails['passwd'] = users[0]['passwd'];
+        userLoginDetails['login_id'] = addedUser['contact'];
+        userLoginDetails['passwd'] = users['passwd'];
         userLoginDetails['uuid'] = uuid.v4();
         login.create(userLoginDetails, function (err, users) {
           if (err) {
@@ -86,6 +89,52 @@ module.exports = {
 
     });
 
+  },
+  getUser: function (user_id, callback) {
+    userDetails.findOne({contact: user_id}).exec(function (err, user) {
+      var response = {};
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, user);
+      }
+
+    });
+  },
+  getShareVideos: function (options, callback) {
+    var query = userDetails.findOne({id: options['user_id']}).populate(options['data_to_populate']);
+    options['page'] && query.paginate({'page': options['page'], 'limit': 10});
+    query.exec(function (err, sentVideos) {
+      var response = {};
+      if (err) {
+        response = sails.config.getResponseObject(userDetails, null, 500, "Internal Server Error");
+        callback(response);
+
+      } else {
+        console.log(sentVideos);
+        var allSentVideos = sentVideos[options['data_to_populate']];
+        var whereObj = [];
+        allSentVideos.forEach(function (sentVideo) {
+          whereObj.push({id: sentVideo['shared_videos']});
+        });
+        console.log(whereObj);
+        var allVideosQuery = VideoDetailsVersion.find(whereObj).populate('baseVideo').populate('owner');
+        options['page'] && allVideosQuery.paginate({'page': options['page'], 'limit': 10});
+
+        allVideosQuery.exec(function (err, videosDetails) {
+
+          if (err) {
+            response = sails.config.getResponseObject(userDetails, null, 500, "Internal Server Error");
+          } else {
+            response = sails.config.getResponseObject(userDetails, null, 200, videosDetails);
+
+          }
+          callback(response);
+        });
+      }
+
+
+    });
   }
 };
 

@@ -28,10 +28,6 @@ module.exports = {
       type: 'integer',
       required: true
     },
-    operation_type: {
-      enum: ['add', 'delete'],
-      defaultsTo: 'add'
-    },
     data: {
       type: 'json',
       required: true
@@ -51,7 +47,7 @@ module.exports = {
   },
   add: function (video_details_version, callback) {
 
-    videos.create(video_details_version, function (err, addedDetailsVersion) {
+    VideoDetailsVersion.create(video_details_version, function (err, addedDetailsVersion) {
 
       var response = {};
       if (err) {

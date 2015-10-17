@@ -3,13 +3,14 @@ module.exports = function (req, res, next) {
   var token;
   console.log(req.body);
   if (req.method == "GET") {
-    token = req.params['token'];
+    console.log(req.param('token'));
+    token = req.param('token');
   } else {
     token = req.body.token;
   }
   if (token) {
     var responseObj = {};
-    sails.config.getFromRedis(sails.key_config.user_creds, token, function (err, data) {
+    sails.config.getFromRedis(sails.config.user_creds, token, function (err, data) {
       if (err) {
         res.status(500);
         responseObj['responseCode'] = 500;
@@ -17,6 +18,7 @@ module.exports = function (req, res, next) {
         return res.json({response: responseObj});
       } else if (data) {
         data = JSON.parse(data);
+        console.log(data['uuid']);
         var refreshToken = data['token'];
         JwtToken.verify(refreshToken, data['uuid'], function (err, token) {
           if (err) {
@@ -26,10 +28,6 @@ module.exports = function (req, res, next) {
             responseObj['message'] = "token expired";
             return res.json({response: responseObj});
           } else {
-            req.token = token;
-            JwtToken.increaseTime(token, 1, function (updatedToken) {
-              console.log(updatedToken);
-            });
             return next();
           }
 
