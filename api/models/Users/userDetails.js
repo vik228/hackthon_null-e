@@ -33,6 +33,14 @@ module.exports = {
     user_id: {
     	collection: 'Video',
     	via: 'UserId'
+    },
+    videos_sent: {
+    	collection:'Transactions',
+    	via:'sender_id'
+    },
+    videos_received: {
+    	collection:'Transactions',
+    	via:'receiver_id'kk
     }
   },
   validationMessages: {

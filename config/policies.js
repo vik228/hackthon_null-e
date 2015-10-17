@@ -5,5 +5,12 @@ module.exports.policies = {
   },
   'Users/loginController': {
     initLogin: true
+  },
+  'Videos/ContentController': {
+    createContent: true
+  },
+  'Videos/TransactionController': {
+    createTransaction: true
   }
+
 };
