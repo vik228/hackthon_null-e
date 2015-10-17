@@ -40,11 +40,11 @@ module.exports = {
       via: 'user_id'
     },
     videos_sent: {
-      collection: 'Transactions',
+      collection: 'Transaction',
       via: 'sender_id'
     },
     videos_received: {
-      collection: 'Transactions',
+      collection: 'Transaction',
       via: 'receiver_id'
     },
     versions: {

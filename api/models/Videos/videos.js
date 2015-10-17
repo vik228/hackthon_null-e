@@ -30,7 +30,7 @@ module.exports = {
       via: 'videos'
     },
     versions: {
-      collection: 'VideoDetailsVersions',
+      collection: 'VideoDetailsVersion',
       via: 'baseVideo'
     }
 
