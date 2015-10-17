@@ -4,86 +4,61 @@
  * @description :: Server-side logic for managing files
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-
+var fs = require('fs');
+var path = require('path');
 module.exports = {
 
 
-
-  /**
-   * `FileController.upload()`
-   *
-   * Upload file(s) to the server's disk.
-   */
   upload: function (req, res) {
 
-    // e.g.
-    // 0 => infinite
-    // 240000 => 4 minutes (240,000 miliseconds)
-    // etc.
-    //
-    // Node defaults to 2 minutes.
     res.setTimeout(0);
-    console.log (req.params);
-
     req.file('avatar')
-    .upload({
-		dirname: '../../assets/uploads/',
-		maxBytes: 1024 * 1024 * 1024
-    }, function whenDone(err, uploadedFiles) {
-      if (err) return res.serverError(err);
-      else return res.json({
-        files: uploadedFiles,
-        textParams: req.params.all()
+      .upload({
+        dirname: '../../assets/uploads/',
+        maxBytes: 1024 * 1024 * 1024
+      }, function whenDone(err, uploadedFiles) {
+        if (err) return res.serverError(err);
+        else return res.json({
+          files: uploadedFiles,
+          textParams: req.params.all()
+        });
+        console.log(res);
       });
-      console.log(res);
-    });
   },
+  stream: function (req, res) {
 
-  /**
-   * `FileController.s3upload()`
-   *
-   * Upload file(s) to an S3 bucket.
-   *
-   * NOTE:
-   * If this is a really big file, you'll want to change
-   * the TCP connection timeout.  This is demonstrated as the
-   * first line of the action below.
-   */
-  s3upload: function (req, res) {
+    var range = req.headers.range;
+    if (range) {
+      var positions = range.replace(/bytes=/, "").split("-");
+      var start = parseInt(positions[0], 10);
+      var file = path.resolve(req.param('path'));
+      fs.stat(file, function (err, stats) {
 
-    // e.g.
-    // 0 => infinite
-    // 240000 => 4 minutes (240,000 miliseconds)
-    // etc.
-    //
-    // Node defaults to 2 minutes.
-    res.setTimeout(0);
+        var total = stats.size;
+        var end = positions[1] ? parseInt(positions[1], 10) : total - 1;
+        var chunksize = (end - start) + 1;
 
-    req.file('avatar').upload({
-      adapter: require('skipper-s3'),
-      bucket: process.env.BUCKET,
-      key: process.env.KEY,
-      secret: process.env.SECRET
-    }, function whenDone(err, uploadedFiles) {
-      if (err) return res.serverError(err);
-      else return res.json({
-        files: uploadedFiles,
-        textParams: req.params.all()
+        res.writeHead(206, {
+          "Content-Range": "bytes " + start + "-" + end + "/" + total,
+          "Accept-Ranges": "bytes",
+          "Content-Length": chunksize,
+          "Content-Type": "video/mp4"
+        });
+        var movieStream = fs.createReadStream(file, {start: start, end: end});
+        movieStream.on('open', function () {
+          movieStream.pipe(res);
+        });
+
+        movieStream.on('error', function (err) {
+          res.end(err);
+        });
       });
-    });
-  },
+    } else {
+      var file = path.resolve(req.param('path'));
+      var stat = fs.statSync(file)
+      res.writeHead(200, {'Content-Length': stat.size, 'Content-Type': 'video/mp4'});
+      fs.createReadStream(file).pipe(res);
+    }
 
-
-  /**
-   * FileController.download()
-   *
-   * Download a file from the server's disk.
-   */
-  download: function (req, res) {
-    require('fs').createReadStream(req.param('path'))
-    .on('error', function (err) {
-      return res.serverError(err);
-    })
-    .pipe(res);
   }
 };

@@ -1,12 +1,11 @@
 module.exports = function (req, res, next) {
 
   var token;
-  console.log(req.body);
   if (req.method == "GET") {
-    console.log(req.param('token'));
     token = req.param('token');
   } else {
-    token = req.body.token;
+    //console.log("key", req);
+    token = req.body.token || req.param('token');
   }
   if (token) {
     var responseObj = {};
@@ -44,6 +43,7 @@ module.exports = function (req, res, next) {
     });
 
   } else {
+    console.log("hellpo");
     res.status(400);
     return res.json({
       response: {

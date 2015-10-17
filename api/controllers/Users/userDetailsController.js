@@ -12,6 +12,7 @@ module.exports = {
     console.log(data);
     userDetails.add(data, function (responseObj) {
       res.status(responseObj['responseCode']);
+      console.log(responseObj);
       res.json({response: responseObj});
 
     });

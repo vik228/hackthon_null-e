@@ -63,7 +63,7 @@ module.exports = {
     var passwd = data['passwd'];
     var resObj = {};
     if (!loginId || !passwd) {
-      resObj = sails.config.Utils.getResponseObject(login, err, 400, "All fields are mandatory");
+      resObj = sails.config.Utils.getResponseObject(login, null, 400, "All fields are mandatory");
       callback(resObj);
     } else {
       login.findOne({login_id: loginId}).exec(function (err, user) {

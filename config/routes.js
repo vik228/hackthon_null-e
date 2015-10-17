@@ -43,7 +43,8 @@ module.exports.routes = {
   'POST /api/v0/videos_details_version/add': 'Videos/VideoDetailsVersionController.createDetailsVersion',
   'POST /api/v0/transaction/add': 'Videos/TransactionController.createTransaction',
   'GET /api/v0/users/get_videos': 'Users/userDetailsController.getVideos',
-  'POST /api/v0/upload': 'FileController.upload'
+  'POST /api/v0/upload': 'FileController.upload',
+  'GET /api/v0/media/stream': 'FileController.stream'
 
   /***************************************************************************
    *                                                                          *

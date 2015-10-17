@@ -14,6 +14,7 @@ module.exports = {
     login.initLogin(data, function (loginDetails) {
 
       res.status(loginDetails['responseCode']);
+      console.log(loginDetails);
       res.json({reponse: loginDetails});
 
     });
