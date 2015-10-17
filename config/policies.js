@@ -5,6 +5,9 @@ module.exports.policies = {
   },
   'Users/loginController': {
     initLogin: true
+  },
+  'FileController': {
+  	upload: true
   }
 
 };
