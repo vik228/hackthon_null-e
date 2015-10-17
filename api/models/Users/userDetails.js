@@ -30,9 +30,9 @@ module.exports = {
       enum: ['active', 'inactive'],
       defaultsTo: 'inactive'
     },
-    user_id: {
-    	collection: 'Video',
-    	via: 'UserId'
+    video_ids: {
+    	collection: 'videos',
+    	via: 'id'
     }
   },
   validationMessages: {

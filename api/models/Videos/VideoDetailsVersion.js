@@ -14,32 +14,36 @@ module.exports = {
       autoIncrement: true,
       unique: true
     },
-    VideoId: {
-    	model: 'Video',
+    videoId: {
+    	model: 'videos',
     	via: 'video_id',
     	required: true
     },
-    UserId: {
-    	model: 'UserDetails',
+    userId: {
+    	model: 'userDetails',
     	via: 'user_id',
     	required: true
     },
-    ParentId: {
-    	type: 'integer'
+    parentId: {
+    	type: 'integer',
+      required: true
+    },
+    timestamp: {
+      type: 'TIMESTAMP'
     }
 
   },
   validationMessages: {
-    VideoId: {
+    videoId: {
       required: 'video id is required'
     },
-    UserId: {
+    userId: {
       required: 'UserId is required'
     }
   },
   add: function (video_details_version, callback) {
 
-    Video.create(video_details_version, function (err, addedDetailsVersion) {
+    videos.create(video_details_version, function (err, addedDetailsVersion) {
 
       var response = {};
       if (err) {
