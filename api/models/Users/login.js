@@ -49,7 +49,6 @@ module.exports = {
     login.hashPassword(user, next);
   },
   comparePassword: function (password, user, cb) {
-    console.log("pass is " + password);
     bcrypt.compare(password, user.passwd, function (err, match) {
       console.log(match);
       if (err) {
@@ -75,13 +74,12 @@ module.exports = {
           resObj = sails.config.getResponseObject(login, null, 400, "User not found");
           callback(resObj);
         } else {
-          login.comparePassword(user['passwd'], user, function (err, match) {
-
+          login.comparePassword(data['passwd'], user, function (err, match) {
             if (!match) {
               resObj = sails.config.getResponseObject(login, null, 401, "Authentication Failed");
 
             } else {
-              resObj = sailsi.config.getResponseObject(login, null, 200, "Authentication successful");
+              resObj = sails.config.getResponseObject(login, null, 200, "Authentication successful");
               var claim = {
                 iss: 'hackthon_null-e',
                 sub: user['login'],

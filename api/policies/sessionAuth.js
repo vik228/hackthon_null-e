@@ -1,6 +1,7 @@
 module.exports = function (req, res, next) {
 
   var token;
+  console.log(req.body);
   if (req.method == "GET") {
     token = req.params['token'];
   } else {
@@ -15,6 +16,7 @@ module.exports = function (req, res, next) {
         responseObj['message'] = "Internal Server Error";
         return res.json({response: responseObj});
       } else if (data) {
+        data = JSON.parse(data);
         var refreshToken = data['token'];
         JwtToken.verify(refreshToken, data['uuid'], function (err, token) {
           if (err) {

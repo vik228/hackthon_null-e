@@ -10,6 +10,7 @@ module.exports = {
   initLogin: function (req, res) {
 
     var data = req.body.data;
+    console.log(data);
     login.initLogin(data, function (loginDetails) {
 
       res.status(loginDetails['responseCode']);
