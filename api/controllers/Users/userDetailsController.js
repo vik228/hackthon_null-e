@@ -13,7 +13,7 @@ module.exports = {
     console.log(data);
     userDetails.add(data, function (responseObj) {
       res.status(responseObj['responseCode']);
-      res.json({response: responseObj});
+      res.json({response: responseObj});	\\\
 
     });
   }

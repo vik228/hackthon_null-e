@@ -28,6 +28,10 @@ module.exports = {
     tags: {
       collection: 'tags',
       via: 'videos'
+    },
+    versions: {
+      collection: 'VideoDetailsVersions',
+      via: 'baseVideo'
     }
 
   },

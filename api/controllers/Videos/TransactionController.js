@@ -1,15 +1,15 @@
 /**
- * Videos/VideoController
+ * Videos/TransactionController
  *
- * @description :: Server-side logic for managing videos/videos
+ * @description :: Server-side logic for managing videos/transactions
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
 module.exports = {
-	createVideo: function (req, res) {
+	createTransaction: function (req, res) {
 
     var data = req.body.data;
-    Video.add(data, function (responseObj) {
+    Transaction.add(data, function (responseObj) {
 
       res.status(responseObj['responseCode']);
       res.json({response: responseObj});

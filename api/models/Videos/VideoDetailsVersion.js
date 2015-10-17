@@ -1,37 +1,45 @@
 /**
-* Videos/VideoDetailsVersion.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
+ * Videos/VideoDetailsVersion.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/#!documentation/models
+ */
 
 module.exports = {
 
   attributes: {
-  	id: {
+    id: {
       type: 'integer',
       primaryKey: true,
       autoIncrement: true,
       unique: true
     },
-    videoId: {
-    	model: 'videos',
-    	via: 'video_id',
-    	required: true
-    },
-    userId: {
-    	model: 'userDetails',
-    	via: 'user_id',
-    	required: true
-    },
-    parentId: {
-    	type: 'integer',
+    baseVideo: {
+      model: 'videos',
+      via: 'versions',
       required: true
     },
-    timestamp: {
-      type: 'TIMESTAMP'
+    owner: {
+      model: 'userDetails',
+      via: 'versions',
+      required: true
+    },
+    parentId: {
+      type: 'integer',
+      required: true
+    },
+    operation_type: {
+      enum: ['add', 'delete'],
+      defaultsTo: 'add'
+    },
+    data: {
+      type: 'json',
+      required: true
+    },
+    all_shares: {
+      collection: 'Transaction',
+      via: 'shared_videos'
     }
-
   },
   validationMessages: {
     videoId: {
