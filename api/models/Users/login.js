@@ -4,6 +4,7 @@
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
+var bcrypt = require('bcrypt');
 module.exports = {
 
   attributes: {
@@ -42,10 +43,10 @@ module.exports = {
     });
   },
   beforeUpdate: function (user, next) {
-    Login.hashPassword(user, next);
+    login.hashPassword(user, next);
   },
   beforeCreate: function (user, next) {
-    Login.hashPassword(user, next);
+    login.hashPassword(user, next);
   },
   comparePassword: function (password, user, cb) {
     console.log("pass is " + password);
@@ -86,9 +87,15 @@ module.exports = {
                 sub: user['login'],
                 scope: 'god'
               }
-              var token = JwtToken.issue(claim);
+              var token = JwtToken.issue(claim, user['uuid']);
               resObj['user_id'] = loginId;
               resObj['token'] = token;
+
+              var userCache = {};
+              userCache['token'] = token;
+              userCache['uuid'] = user['uuid'];
+              userCache['login_id'] = user['login_id'];
+              sails.config.insertIntoRedis(sails.config.user_creds, token, userCache);
             }
             return (callback(resObj));
 

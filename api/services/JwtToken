@@ -1,15 +1,14 @@
 var nJwt = require('nJwt');
 var uuid = require('node-uuid');
 var hashAlgorithm = "HS512";
-var tokenSecret = "secret";
 module.exports = {
-  issue: function (claim) {
+  issue: function (claim, tokenSecret) {
     var jwt = nJwt.create(claim, tokenSecret, hashAlgorithm);
     jwt.setExpiration(new Date().getTime() + 60 * 60 * 1000);
     return jwt.compact();
 
   },
-  verify: function (token, callback) {
+  verify: function (token, tokenSecret, callback) {
     nJwt.verify(token, tokenSecret, hashAlgorithm, function (err, verifiedJwt) {
       if (err) {
         callback(err, null);
@@ -21,7 +20,6 @@ module.exports = {
   },
   increaseTime: function (token, offset, callback) {
     nJwt.verify(token, tokenSecret, hashAlgorithm, function (err, verifiedJWT) {
-
       var expTime = verifiedJWT.body.exp;
       var newTime = expTime + offset;
       verifiedJWT.setExpiration(newTime * 1000);
