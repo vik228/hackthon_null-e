@@ -15,7 +15,8 @@ module.exports = {
       primaryKey: true
     },
     path: {
-      type: 'string'
+      type: 'string',
+      required: true
     },
     desc: {
       type: 'string'
@@ -35,7 +36,7 @@ module.exports = {
       var resposne = {};
       if (err) {
         console.log(err);
-        resposne = sails.config.getResponseObject(videos, null, 500, 'Internal Server Error');
+        resposne = sails.config.getResponseObject(videos, err, 500, 'Internal Server Error');
       } else {
         resposne = sails.config.getResponseObject(videos, null, 200, 'Video Added');
       }

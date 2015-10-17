@@ -37,7 +37,9 @@ module.exports.routes = {
   },
   'POST /api/v0/users/add': 'Users/userDetailsController.createUser',
   'POST /api/v0/users/login': 'Users/loginController.initLogin',
-  'GET /api/v0/tags/get': 'Tags/tagsController.getAllTags'
+  'GET /api/v0/tags/get': 'Tags/tagsController.getAllTags',
+  'POST /api/v0/videos/add': 'Videos/VideoController.createVideo',
+  'POST /api/v0/videos_details_version/add': 'Videos/VideoDetailsVersionController.createDetailsVersion'
 
   /***************************************************************************
    *                                                                          *
