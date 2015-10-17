@@ -54,6 +54,24 @@ module.exports = {
       callback(response);
 
     });
+  },
+  getUserVideos: function (options, callback) {
+    var query = videos.find({user_id: options['user_id']}).sort('id ASC');
+    if (options['limit'] && options['page']) {
+      query.paginate({'page': options['page'], limit: options['limit']});
+    }
+    query.exec(function (err, videos) {
+      var response = {};
+      if (err) {
+
+        response = sails.config.getResponseObject(videos, null, 500, 'Internal Server Error');
+
+      } else {
+        response = sails.config.getResponseObject(videos, null, 200, videos);
+      }
+      callback(response);
+
+    });
   }
 };
 

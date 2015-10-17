@@ -10,7 +10,6 @@ module.exports = {
   addVideo: function (req, res) {
     var data = req.body.data;
     videos.addVideo(data, function (responseObj) {
-
       res.status(responseObj['responseCode']);
       res.json({response: responseObj});
 
@@ -18,11 +17,18 @@ module.exports = {
   },
   updateVideo: function (req, res) {
     var data = req.body.data;
-
     videos.updateVideo(data, function (responseObj) {
       res.status(responseObj['responseCode']);
       res.json({response: responseObj});
     })
+  },
+  getUserVideos: function (req, res) {
+    var queryString = sails.config.getQueryString(req);
+    videos.getUsersVideos(queryString, function (responseObj) {
+      res.status(responseObj['responseCode']);
+      res.json({response: responseObj});
+
+    });
   }
 
 };

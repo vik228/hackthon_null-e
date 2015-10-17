@@ -26,6 +26,10 @@ module.exports = {
       required: true,
       unique: true
     },
+    contact: {
+      type: 'string',
+      required: true
+    },
     status: {
       type: 'string',
       enum: ['active', 'inactive'],
