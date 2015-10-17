@@ -26,7 +26,7 @@ module.exports = {
     },
     tags: {
       collection: 'tags',
-      via: 'video'
+      via: 'videos'
     }
 
   },
