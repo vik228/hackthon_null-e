@@ -30,17 +30,17 @@ module.exports = {
       enum: ['active', 'inactive'],
       defaultsTo: 'inactive'
     },
-    user_id: {
-    	collection: 'Video',
-    	via: 'UserId'
-    },
     videos_sent: {
     	collection:'Transactions',
     	via:'sender_id'
     },
     videos_received: {
     	collection:'Transactions',
-    	via:'receiver_id'kk
+    	via:'receiver_id'
+    },
+    video_ids: {
+    	collection: 'videos',
+    	via: 'id'
     }
   },
   validationMessages: {

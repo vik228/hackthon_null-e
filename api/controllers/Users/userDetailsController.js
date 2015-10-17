@@ -10,6 +10,7 @@ module.exports = {
   createUser: function (req, res) {
 
     var data = req.body.data;
+    console.log(data);
     userDetails.add(data, function (responseObj) {
       res.status(responseObj['responseCode']);
       res.json({response: responseObj});	\\\
